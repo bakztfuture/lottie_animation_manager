@@ -1,0 +1,15 @@
+# Byte-compiled / optimized / DLL files
+.python/
+*.pyc
+__pycache__/
+
+# virtualenv
+.venv/
+venv/
+ENV/
+
+# Mac file
+.DS_Store
+
+# Ignore environment variable files for security reasons
+.env
