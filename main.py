@@ -42,6 +42,18 @@ except Exception:
 	click.echo(click.style('In order to continue, please reconfigure and test your local AWS profile/configuration. You\'ll need to download the AWS CLI and configure it first before you can proceed.', fg="green"))
 	sys.exit()
 
+# Clear keyring in order to test to make sure the configuration screen is working
+def clear_keyring():
+	global bucket
+	global configured_tiny_png_key
+	global compression_enabled
+
+	keyring.delete_password(LOTTIE_KEYRING_SERVICE_ID, 'lottie_animation_manager_config_complete')
+	keyring.delete_password(LOTTIE_KEYRING_SERVICE_ID, 's3_bucket_name')
+	keyring.delete_password(LOTTIE_KEYRING_SERVICE_ID, 'tiny_png_credentials')
+	click.echo("cleared keyring")
+
+
 # Compress image with tinypng API
 def compress_image(file_name):
 	global bucket
@@ -272,7 +284,7 @@ def initialize_configuration():
 				click.echo(click.style("Could not connect to '{}' bucket, please try again".format(bucket_name), fg="red"))
 
 		# Please enter your tinyPNG stuff
-		tiny_png_key = click.prompt('Please enter your TingPNG Key or enter "skip" to disable image compression')
+		tiny_png_key = click.prompt('Please enter your TinyPNG Key or enter "skip" to disable image compression')
 		if(tiny_png_key.lower() != 'skip'):
 			keyring.set_password(LOTTIE_KEYRING_SERVICE_ID, 'tiny_png_credentials', tiny_png_key)
 			configured_tiny_png_key = tiny_png_key
@@ -299,20 +311,19 @@ def main_menu():
 	click.echo(click.style("Lottie Animation Manager makes it easy to manage, compress, and upload Lottie assets to a CDN. \n", fg='bright_green'))
 	# Main menu with 3 options
 	click.echo(click.style("Choose an option below to get started: ", bold=True))
-	click.echo(click.style("1) Configure Lottie Animation Manager", fg='bright_cyan'))
-	click.echo(click.style("2) Create a New Animation / Upload Current Directory", fg='bright_cyan'))
-	click.echo(click.style("3) List Hosted Animations", fg='bright_cyan'))
-	click.echo(click.style("4) Exit Lottie Animation Manager", fg='bright_cyan'))
+	click.echo(click.style("1) Create a New Animation / Upload Current Directory", fg='bright_cyan'))
+	click.echo(click.style("2) List Hosted Animations", fg='bright_cyan'))
+	click.echo(click.style("3) Exit Lottie Animation Manager", fg='bright_cyan'))
 
 	# Ask the user what menu option they want
-	menu_choice = click.prompt('Please enter a value between 1-4', type=int)
+	menu_choice = click.prompt('Please enter a value between 1-3', type=int)
 	
 	# Option 2: Create a new animation ie. upload the current working directory
-	if(menu_choice == 2):
+	if(menu_choice == 1):
 		upload_current_lottie_directory()
-	elif(menu_choice == 3):
+	elif(menu_choice == 2):
 		list_hosted_animations()
-	elif(menu_choice == 4):
+	elif(menu_choice == 3):
 		click.echo(click.style(emoji.emojize("Thanks for using Lottie Animation Manager, have a nice day :sun: \n"), fg='bright_green'))
 		click.Abort()
 	else:
