@@ -1,7 +1,8 @@
-import os
+import os, sys
 import boto
 import boto.s3.connection
 from boto.s3.key import Key
+from boto.exception import NoAuthHandlerFound
 import pathlib
 from utils import *
 
@@ -25,14 +26,21 @@ compression_enabled = True
 # connect to the default AWS profile
 # if it's not found or fails, close the application.
 bucket = None
+#conn = boto.connect_s3()
 try:
 	conn = boto.connect_s3()
-except:
-	click.echo(click.style(emoji.emojize('  Lottie Animation Manager - AWS Config Error  '), bg='green', fg="bright_white"))
+except NoAuthHandlerFound:
+	click.echo(click.style(emoji.emojize('  Lottie Animation Manager - AWS Config Error  '), bg='red', fg="bright_white"))
 	click.echo('\n')
 	# Tell the user they need to configure AWS in order to continue.
 	click.echo(click.style('In order to continue, please reconfigure and test your local AWS profile/configuration. You\'ll need to download the AWS CLI and configure it first before you can proceed.', fg="green"))
-	click.Abort()
+	sys.exit()
+except Exception:
+	click.echo(click.style(emoji.emojize('  Lottie Animation Manager - AWS Config Error  '), bg='red', fg="bright_white"))
+	click.echo('\n')
+	# Tell the user they need to configure AWS in order to continue.
+	click.echo(click.style('In order to continue, please reconfigure and test your local AWS profile/configuration. You\'ll need to download the AWS CLI and configure it first before you can proceed.', fg="green"))
+	sys.exit()
 
 # Compress image with tinypng API
 def compress_image(file_name):
