@@ -1,4 +1,14 @@
+boto==2.49.0
+certifi==2019.11.28
+chardet==3.0.4
 click==7.1.1
 colorama==0.4.3
 emoji==0.5.4
+idna==2.9
+importlib-metadata==1.6.0
+keyring==21.2.0
 pyfiglet==0.8.post1
+requests==2.23.0
+tinify==1.5.1
+urllib3==1.25.8
+zipp==3.1.0

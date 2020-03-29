@@ -1,2 +1,2 @@
 # Lottie Animation Manager
-The easiest way to manage and upload Lottie assets to a CDN 
+The easiest way to manage, compress, and upload Lottie assets to a CDN 
