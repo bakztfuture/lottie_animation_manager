@@ -243,11 +243,15 @@ def list_hosted_animations():
 		folder_name = pathlib.Path(folder_name).parts[0]
 		existing_folders.append(folder_name)
 
-	count = 1
-	for folder in existing_folders:
-		click.echo(click.style("{}) ".format(count), fg="bright_white"), nl=False)
-		click.echo(click.style("{}".format(folder), bg='bright_white', fg="black"), nl=True)
-		count += 1
+	if len(existing_folders) > 0:
+		count = 1
+		for folder in existing_folders:
+			click.echo(click.style("{}) ".format(count), fg="bright_white"), nl=False)
+			click.echo(click.style("{}".format(folder), bg='bright_white', fg="black"), nl=True)
+			count += 1
+	else:
+		click.echo(click.style('Sorry - no existing animation folders were found!'))
+
 
 @click.command()
 def initialize_configuration():
