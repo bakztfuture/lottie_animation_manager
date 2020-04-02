@@ -1,5 +1,5 @@
 # Essential imports
-import os, sys
+import os, sys, re
 import pathlib
 from utils import *
 
@@ -196,6 +196,8 @@ def upload_current_lottie_directory():
 			click.echo(click.style("Please enter a valid animation name. Longer than 3 characters, shorter than 60 characters.", fg="red"))
 		elif (" " in animation_name):
 			click.echo(click.style("Please avoid using spaces in your animation name (best practice)", fg="red"))
+		elif not re.match(r'^[a-zA-Z0-9][ A-Za-z0-9_-]*$', animation_name):
+			click.echo(click.style("Please avoid using special characters.  Only alpha/numeric, dashes, and underscores are allowed.", fg="red"))
 		else:
 			click.echo(click.style("Now checking if '{}' already exists in your S3 Bucket...".format(animation_name), fg="blue"))
 
