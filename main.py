@@ -1,5 +1,5 @@
 # Essential imports
-import os, sys
+import os, sys, re
 import pathlib
 from utils import *
 
@@ -9,6 +9,7 @@ import boto.s3.connection
 from boto.s3.key import Key
 from boto.exception import NoAuthHandlerFound
 bucket = None
+bucket_name_final = None
 
 # Command line related imports
 import click
@@ -195,6 +196,8 @@ def upload_current_lottie_directory():
 			click.echo(click.style("Please enter a valid animation name. Longer than 3 characters, shorter than 60 characters.", fg="red"))
 		elif (" " in animation_name):
 			click.echo(click.style("Please avoid using spaces in your animation name (best practice)", fg="red"))
+		elif not re.match(r'^[a-zA-Z0-9][ A-Za-z0-9_-]*$', animation_name):
+			click.echo(click.style("Please avoid using special characters.  Only alpha/numeric, dashes, and underscores are allowed.", fg="red"))
 		else:
 			click.echo(click.style("Now checking if '{}' already exists in your S3 Bucket...".format(animation_name), fg="blue"))
 
@@ -226,6 +229,7 @@ def list_hosted_animations():
 	global bucket
 	global configured_tiny_png_key
 	global compression_enabled
+	global bucket_name_final
 
 	# Clear screen
 	click.clear()
@@ -243,11 +247,16 @@ def list_hosted_animations():
 		folder_name = pathlib.Path(folder_name).parts[0]
 		existing_folders.append(folder_name)
 
-	count = 1
-	for folder in existing_folders:
-		click.echo(click.style("{}) ".format(count), fg="bright_white"), nl=False)
-		click.echo(click.style("{}".format(folder), bg='bright_white', fg="black"), nl=True)
-		count += 1
+	if len(existing_folders) > 0:
+		count = 1
+		for folder in existing_folders:
+			click.echo(click.style("{}) ".format(count), fg="bright_white"), nl=False)
+			click.echo(click.style("{}".format(folder), bg='bright_white', fg="black"), nl=True)
+			click.echo(click.style("https://s3.console.aws.amazon.com/s3/buckets/{}/{}/".format(bucket_name_final, folder), fg="bright_cyan"), nl=True)
+			count += 1
+	else:
+		click.echo(click.style('Sorry - no existing animation folders were found!'))
+
 
 @click.command()
 def initialize_configuration():
@@ -262,6 +271,7 @@ def initialize_configuration():
 	global bucket
 	global configured_tiny_png_key
 	global compression_enabled
+	global bucket_name_final
 
 	# Detect if the configuration was successfully completed in the past
 	if(keyring.get_password(LOTTIE_KEYRING_SERVICE_ID, 'lottie_animation_manager_config_complete') == 'true'):
@@ -269,6 +279,7 @@ def initialize_configuration():
 		# s3 bucket
 		bucket_name = keyring.get_password(LOTTIE_KEYRING_SERVICE_ID, 's3_bucket_name')
 		bucket = conn.get_bucket(bucket_name)
+		bucket_name_final = bucket_name
 
 		# configured tinypng API info (if any)
 		configured_tiny_png_key = keyring.get_password(LOTTIE_KEYRING_SERVICE_ID, 'tiny_png_credentials')
@@ -298,6 +309,7 @@ def initialize_configuration():
 			try:
 				bucket = conn.get_bucket(bucket_name)
 				keyring.set_password(LOTTIE_KEYRING_SERVICE_ID, 's3_bucket_name', bucket_name)
+				bucket_name_final = bucket_name
 				bucket_set = True
 			except:
 				click.echo(click.style("Could not connect to '{}' bucket, please try again".format(bucket_name), fg="red"))
