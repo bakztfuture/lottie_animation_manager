@@ -1,0 +1,11 @@
+README.md
+setup.py
+lottie_animation_manager/__init__.py
+lottie_animation_manager/__main__.py
+lottie_animation_manager/utils.py
+lottie_animation_manager.egg-info/PKG-INFO
+lottie_animation_manager.egg-info/SOURCES.txt
+lottie_animation_manager.egg-info/dependency_links.txt
+lottie_animation_manager.egg-info/entry_points.txt
+lottie_animation_manager.egg-info/requires.txt
+lottie_animation_manager.egg-info/top_level.txt

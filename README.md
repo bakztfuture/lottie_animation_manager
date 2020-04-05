@@ -15,17 +15,12 @@ Lottie Animation Manager is the first half of a larger plan.  Soon, there will b
 - Automatically compress image assets using TinyPNG to save load time before they are uploaded
 
 # Setup/Installation
-1. Clone this repo
-2. Install the application dependencies:
+Simply install the Lottie Animation Manager library through **pip**:
 ```bash
-# Navigate to the application folder lottie_animation_manager
-cd lottie_animation_manager
-# Create the virtual environment
-virtualenv -p python3 venv
-# Initialize the virtual environment
-source venv/bin/activate
-# Install dependencies
-pip install -r requirements.txt
+# most common way:
+pip install lottie-animation-manager
+# for people who have multiple versions of python:
+pip3 install lottie-animation-manager
 ```
 # Usage
 1. Install the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html)
@@ -36,12 +31,11 @@ pip3 install awscli --upgrade --user
 ```
 aws configure
 ```
-3. Initialize the virtual environment inside the python application by entering `source venv/bin/activate` into the command line
-4. Now, using `cd` , navigate to your folder with your lottie asset (which was exported by the Bodymovin plugin).  Your folder layout might look something like this:
+3. Now, using `cd` , navigate to your folder with your lottie asset (which was exported by the Bodymovin plugin).  Your folder layout might look something like this:
 ![alt text](documentation_images/sample_animation_folder_layout.png "Example Lottie Animation Export Directory")
-5. Call the python application like so from inside this animation directory:
+5. Call the python application from your command line like so from inside this animation directory:
 ```
-python3 ~/Desktop/projects/lottie_animation_manager/main.py
+lottie-animation-manager
 ```
 6. Once the application loads, follow the steps in the lottie animation wizard to upload, compress, and manage your assets to Cloudfront CDN :tada:
 
