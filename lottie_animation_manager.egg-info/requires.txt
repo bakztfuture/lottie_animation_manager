@@ -1,0 +1,6 @@
+boto>=2.49
+click>=7.1
+colorama>=0.4
+emoji>=0.5
+pyfiglet>=0.8
+tinify>=1.5

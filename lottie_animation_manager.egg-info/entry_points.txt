@@ -1,0 +1,3 @@
+[console_scripts]
+lottie-animation-manager = lottie_animation_manager.__main__:initialize_configuration
+

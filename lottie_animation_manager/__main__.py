@@ -1,7 +1,7 @@
 # Essential imports
 import os, sys, re
 import pathlib
-from utils import *
+from .utils import *
 
 # AWS Related imports
 import boto
