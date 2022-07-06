@@ -69,7 +69,7 @@ The Author/copyright holders of this package are not liable for any costs you mi
 
 # MIT License
 
-Copyright (c) 2020 BAKHTAWAR AWAN
+Copyright (c) 2020 BAKZ T. FUTURE
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
